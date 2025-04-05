@@ -29,10 +29,12 @@ local function noEndlagSetup(char)
     end)
 end
 
-if plr.Character then
-    noEndlagSetup(plr.Character)
-else
-    plr.CharacterAdded:Connect(function(char)
-        noEndlagSetup(char)
-    end)
+local function onCharacterAdded(char)
+    noEndlagSetup(char)
 end
+
+if plr.Character then
+    onCharacterAdded(plr.Character)
+end
+
+plr.CharacterAdded:Connect(onCharacterAdded)
