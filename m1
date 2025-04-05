@@ -1,0 +1,36 @@
+local plr = game:GetService("Players").LocalPlayer
+local uis = game:GetService("UserInputService")
+
+local frontDashArgs = {
+    [1] = {
+        ["Dash"] = Enum.KeyCode.W,
+        ["Key"] = Enum.KeyCode.Q,
+        ["Goal"] = "KeyPress"
+    }
+}
+
+local function frontDash()
+    if plr.Character then
+        plr.Character.Communicate:FireServer(unpack(frontDashArgs))
+    end
+end
+
+local function noEndlagSetup(char)
+    uis.InputBegan:Connect(function(input, t)
+        if t then return end
+        
+        if input.KeyCode == Enum.KeyCode.Q 
+        and not uis:IsKeyDown(Enum.KeyCode.D) 
+        and not uis:IsKeyDown(Enum.KeyCode.A) 
+        and not uis:IsKeyDown(Enum.KeyCode.S) 
+        and char:FindFirstChild("UsedDash") then
+            frontDash()
+        end
+    end)
+end
+
+if plr.Character then
+    noEndlagSetup(plr.Character)
+end
+
+plr.CharacterAdded:Connect(noEndlagSetup)
