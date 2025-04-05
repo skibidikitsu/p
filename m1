@@ -10,7 +10,7 @@ local frontDashArgs = {
 }
 
 local function frontDash()
-    if plr.Character then
+    if plr.Character and plr.Character:FindFirstChild("Communicate") then
         plr.Character.Communicate:FireServer(unpack(frontDashArgs))
     end
 end
@@ -31,6 +31,8 @@ end
 
 if plr.Character then
     noEndlagSetup(plr.Character)
+else
+    plr.CharacterAdded:Connect(function(char)
+        noEndlagSetup(char)
+    end)
 end
-
-plr.CharacterAdded:Connect(noEndlagSetup)
